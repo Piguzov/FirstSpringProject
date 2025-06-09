@@ -12,7 +12,7 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long amount;
+    private Double amount;
     private LocalDate date;
     private String description;
     @Enumerated(EnumType.STRING)
@@ -28,7 +28,7 @@ public class Expense {
 
 
 
-    public Expense(Long id, Long amount, LocalDate date, String description) {
+    public Expense(Long id, Double amount, LocalDate date, String description) {
         this.id = id;
         this.amount = amount;
         this.date = date;
@@ -46,11 +46,11 @@ public class Expense {
         this.id = id;
     }
 
-    public Long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
