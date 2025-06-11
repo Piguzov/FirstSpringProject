@@ -1,0 +1,79 @@
+.cntr {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 40vh; /* Высота окна просмотра */
+    margin: 0;
+    grid-template-rows: 30px 30px auto;
+    grid-template-areas:
+    "A A A D D D C C"
+    "F G H D D D C C"
+    "B B B B B B B B";
+ }
+.filterh{
+  justify-content: center;
+  grid-area: A;
+}
+.bydate{
+  grid-area: F;
+}
+.switch{
+  grid-area: G;
+}
+.byid{
+  grid-area: H;
+}
+.date-container {
+  grid-area: D;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: 8px 12px;
+}
+.dateinp1, .dateinp2 {
+  display: contents;
+}
+.dateinp1 label, .dateinp2 label {
+  grid-column: 1;
+  align-self: center;
+}
+
+.dateinp1 input, .dateinp2 input {
+  grid-column: 2;
+}
+.add{
+  grid-area: C;
+}
+table {
+    grid-area: B;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ }
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* полупрозрачный фон */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* чтобы было поверх всего */
+}
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+}

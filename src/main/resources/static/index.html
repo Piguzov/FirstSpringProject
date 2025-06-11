@@ -1,21 +1,93 @@
 <!doctype html>
-<html ng-app="questApp">
+<html ng-app="expenseApp">
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/mystyles.css" />
 </head>
 <body>
-	<div  ng-controller="QuestionController">
-		<div class="content">
-			<div class="quest">
-				<div ng-repeat="expense in expenses">  
-				    {{expense.id}} (Рейтинг: {{expense.amount}})
-				</div>
-			</div>
+<div ng-controller="ExpenseController" class="cntr">
+	<div class="filterh">Фильтр</div>
+	<div class="bydate">По дате</div>
+	<div class="switch">свитч</div>
+	<div class="byid">По id</div>
+	<div class="date-container">
+		<div class="dateinp1">
+			<label>С</label>
+			<input type="date">
+		</div>
+		<div class="dateinp2">
+			<label>По</label>
+			<input type="date">
 		</div>
 	</div>
-	<script src="js/lib/angular.min.js"></script>
-	<script src="js/app.js"></script>
-	<script src="js/controllers/QuestionController.js"></script>
+	<div class="add">
+		<a href="" ng-click="addExpense()">
+			<img class="icon" src="img/plus-circle.svg" alt="edit icon">
+			Добавить
+		</a>
+	</div>
+	<table class="tbl">
+		<thead>
+		<tr>
+			<th>id</th>
+			<th>Дата</th>
+			<th>Сумма</th>
+			<th>Описание</th>
+			<th>Категория</th>
+			<th>Действия</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="expense in expenses">
+			<td>{{expense.id}}</td>
+			<td>{{expense.date}}</td>
+			<td>{{expense.amount}}</td>
+			<td>{{expense.description}}</td>
+			<td>{{expense.category}}</td>
+			<td>
+				<a href="" ng-click="editExpense(expense)">
+					<img class="icon" src="img/pencil.svg" alt="edit icon">
+				</a>
+				<a href="" ng-click="deleteExpense(expense.id)">
+					<img class="icon" src="img/trash3.svg" alt="remove">
+				</a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div class="modal" ng-if="showEditForm">
+		<div class="modal-content">
+			<h2>Редактировать</h2>
+			<form name="myForm">
+				<label>Сумма:
+					<input type="number" ng-model="formData.amount" required>
+				</label><br>
+
+				<label>Дата:
+					<input type="date" ng-model="formData.date" required>
+				</label><br>
+
+				<label>Категория:
+					<select ng-model="formData.category" ng-options="category for category in categories" required>
+						<option value="">-- выберите значение --</option>
+					</select>
+				</label><br>
+
+				<label>Описание:
+					<input type="text" ng-model="formData.description">
+				</label><br>
+
+				<button type="button" ng-click="checkForm()" ng-disabled="!myForm.$valid">Отправить</button>
+				<button type="button" ng-click="cancelEdit()">Отмена</button>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+<script src="js/lib/angular.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/controllers/ExpenseController.js"></script>
+<script src="js/lib/angular-route.min.js"></script>
 </body>
 </html>
