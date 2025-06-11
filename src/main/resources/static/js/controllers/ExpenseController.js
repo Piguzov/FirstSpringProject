@@ -1,17 +1,49 @@
 angular.module('expenseApp', [])
 .controller('ExpenseController', function($scope, $http, $window) {
 
-    $scope.showAddForm = false;
-    $scope.formData = {};
-    $scope.categories = ['Food','Transport','Entertainment','Clothes','Internet','House','Other'];
-    $scope.formData.category = null;
-    $scope.isEdit=false;
-    $scope.curExpense=null;
+    $scope.showAddForm = false; //Отображение формы
+    $scope.formData = {}; //Данные формы
+    $scope.categories = ['Food','Transport','Entertainment','Clothes','Internet','House','Other']; //Категории для списка
+    $scope.formData.category = null; //Текущая категория
+    $scope.isEdit=false; //Режим формы (редактирование или добавление)
+    $scope.curExpense=null; //Редактируемый объект
+    $scope.filterType='По дате' //Тип фильтра
+    $scope.filterTypes = ['По id','По дате']; //Список фильтров
+    $scope.dateFilter={}; //Данные фильтра даты
+    $scope.filter = {
+      idFilter: 1
+    }; //Данные фильтра id
 
-    $http({method: 'GET', url: 'http://localhost:8080/expenses'})
-        .then(function success(response) {
-            $scope.expenses = response.data;
-        });
+//    $http({method: 'GET', url: 'http://localhost:8080/expenses'})
+//        .then(function success(response) {
+//            $scope.expenses = response.data;
+//        });}
+    function applyFilter(){
+        if($scope.filterType=='По дате'){
+            let data="?";
+            if($scope.dateFilter.date1!=null){
+                data+="date1="+formatDate($scope.dateFilter.date1)+'&'
+            }
+            if($scope.dateFilter.date2!=null){
+                            data+="date2="+formatDate($scope.dateFilter.date2)+'&'
+                        }
+            $http({method: 'GET', url: 'http://localhost:8080/expenses'+data})
+                    .then(function success(response) {
+                        $scope.expenses = response.data;
+                    });
+        }
+        else{
+            $http({method: 'GET', url: 'http://localhost:8080/expenses/'+$scope.filter.idFilter})
+                                .then(function success(response) {
+                                    $scope.expenses = [response.data];
+                                });
+
+        }
+    }
+    $scope.callApplyFilter=function(){
+        applyFilter();
+    }
+    applyFilter();
 
     $scope.addExpense=function(){
         $scope.isEdit=false;
@@ -42,7 +74,7 @@ angular.module('expenseApp', [])
                             .then(function(response) {
                             console.log('Успешно обновлено', response.data);
                             $scope.showEditForm = false;
-                            $window.location.reload();
+                            applyFilter()
                             }, function(error) {
                             console.error('Ошибка при обновлении', error);
                             });
@@ -52,7 +84,7 @@ angular.module('expenseApp', [])
                 .then(function(response) {
                 console.log('Успешно отправлено', response.data);
                 $scope.showEditForm = false;
-                $window.location.reload();
+                applyFilter()
                 }, function(error) {
                 console.error('Ошибка при отправке', error);
                 });
@@ -62,7 +94,7 @@ angular.module('expenseApp', [])
         $http.delete('http://localhost:8080/expenses/'+id)
         .then(function(response) {
                 console.log('Удаление успешно', response.data);
-                $window.location.reload();
+                applyFilter()
               })
               .catch(function(error) {
                 console.error('Ошибка при удалении', error);

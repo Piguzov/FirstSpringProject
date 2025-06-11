@@ -4,47 +4,76 @@
     align-items: center;
     height: 40vh; /* Высота окна просмотра */
     margin: 0;
-    grid-template-rows: 30px 30px auto;
+    grid-template-rows: 30px 80px auto;
     grid-template-areas:
-    "A A A D D D C C"
-    "F G H D D D C C"
-    "B B B B B B B B";
+        "add"
+        "filters"
+        "lst";
  }
-.filterh{
-  justify-content: center;
-  grid-area: A;
-}
-.bydate{
-  grid-area: F;
-}
-.switch{
-  grid-area: G;
-}
-.byid{
-  grid-area: H;
-}
-.date-container {
-  grid-area: D;
-  display: grid;
-  grid-template-columns: max-content max-content;
-  gap: 8px 12px;
-}
-.dateinp1, .dateinp2 {
-  display: contents;
-}
-.dateinp1 label, .dateinp2 label {
-  grid-column: 1;
-  align-self: center;
+
+.add {
+  grid-area: add;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.dateinp1 input, .dateinp2 input {
-  grid-column: 2;
+.add a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  color: #000;
 }
-.add{
-  grid-area: C;
+
+.filters-row {
+  grid-area: filters;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 15px;
+  align-items: center;
+  width: 100%;
 }
+.date-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-self: left;
+}
+.filterh {
+  font-weight: bold;
+  white-space: nowrap;
+  justify-self: right;
+}
+
+.filtertype select,
+.dateinp1 input,
+.dateinp2 input,
+.id-container input,
+.apply {
+  padding: 5px 8px;
+  font-size: 14px;
+}
+
+.dateinp1 div,
+.dateinp2 div{
+  justify-self: right;
+}
+
+.dateinp1 label,
+.dateinp2 label,
+.id-container label {
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.add .icon {
+  width: 18px;
+  height: 18px;
+}
+
 table {
-    grid-area: B;
+    grid-area: lst;
     border-collapse: collapse;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
  }

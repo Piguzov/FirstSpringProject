@@ -6,26 +6,43 @@
 </head>
 <body>
 <div ng-controller="ExpenseController" class="cntr">
-	<div class="filterh">Фильтр</div>
-	<div class="bydate">По дате</div>
-	<div class="switch">свитч</div>
-	<div class="byid">По id</div>
-	<div class="date-container">
-		<div class="dateinp1">
-			<label>С</label>
-			<input type="date">
-		</div>
-		<div class="dateinp2">
-			<label>По</label>
-			<input type="date">
-		</div>
-	</div>
 	<div class="add">
 		<a href="" ng-click="addExpense()">
 			<img class="icon" src="img/plus-circle.svg" alt="edit icon">
 			Добавить
 		</a>
 	</div>
+		<div class="filters-row">
+			<div class="filterh">Фильтр</div>
+
+			<div class="filtertype">
+				<select ng-model="filterType" ng-options="f for f in filterTypes"></select>
+			</div>
+
+			<div class="date-container" ng-if="filterType=='По дате'">
+				<div class="dateinp1">
+					<div>
+						<label>С</label>
+						<input type="date" ng-model="dateFilter.date1">
+					</div>
+				</div>
+				<div class="dateinp2">
+					<div>
+						<label>По</label>
+						<input type="date" ng-model="dateFilter.date2">
+					</div>
+				</div>
+			</div>
+
+			<div class="id-container" ng-if="filterType=='По id'">
+				<label>id
+				<input type="number" ng-model="filter.idFilter">
+				</label>
+			</div>
+
+			<button class="apply" type="button" ng-click="callApplyFilter()">Применить</button>
+		</div>
+
 	<table class="tbl">
 		<thead>
 		<tr>
