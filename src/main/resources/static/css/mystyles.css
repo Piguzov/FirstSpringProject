@@ -4,7 +4,8 @@
     align-items: center;
     height: 40vh; /* Высота окна просмотра */
     margin: 0;
-    grid-template-rows: 30px 80px auto;
+    row-gap: 20px;
+    grid-template-rows: 40px 80px auto;
     grid-template-areas:
         "add"
         "filters"
@@ -19,7 +20,7 @@
   gap: 6px;
 }
 
-.add a {
+.add button {
   text-decoration: none;
   font-weight: bold;
   font-size: 16px;
@@ -32,7 +33,18 @@
   grid-auto-flow: column;
   column-gap: 15px;
   align-items: center;
-  width: 100%;
+  width: 50%;
+  height: 80px;
+  justify-self: center;
+  border: 1px solid gray;
+  padding: 10px;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.filters-row label{
+  font-weight: bold;
+  white-space: nowrap;
+  justify-self: left;
 }
 .date-container {
   display: flex;
@@ -43,7 +55,7 @@
 .filterh {
   font-weight: bold;
   white-space: nowrap;
-  justify-self: right;
+  justify-self: left;
 }
 
 .filtertype select,
@@ -54,7 +66,14 @@
   padding: 5px 8px;
   font-size: 14px;
 }
-
+.apply{
+    width: 120px;
+    justify-self: right;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+}
 .dateinp1 div,
 .dateinp2 div{
   justify-self: right;
@@ -66,6 +85,9 @@
   margin-right: 4px;
   white-space: nowrap;
 }
+.id-container{
+    justify-self: left;
+}
 
 .add .icon {
   width: 18px;
@@ -76,6 +98,9 @@ table {
     grid-area: lst;
     border-collapse: collapse;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 70%;
+    table-layout: fixed;
+    justify-self: center;
  }
 
 th, td {

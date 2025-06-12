@@ -7,43 +7,52 @@
 <body>
 <div ng-controller="ExpenseController" class="cntr">
 	<div class="add">
-		<a href="" ng-click="addExpense()">
+		<button type="button" ng-click="addExpense()">
 			<img class="icon" src="img/plus-circle.svg" alt="edit icon">
 			Добавить
-		</a>
+		</button>
 	</div>
-		<div class="filters-row">
-			<div class="filterh">Фильтр</div>
-
+	<div class="filters-row">
+		<div class="filterh">Фильтр
 			<div class="filtertype">
 				<select ng-model="filterType" ng-options="f for f in filterTypes"></select>
 			</div>
-
-			<div class="date-container" ng-if="filterType=='По дате'">
-				<div class="dateinp1">
-					<div>
-						<label>С</label>
-						<input type="date" ng-model="dateFilter.date1">
-					</div>
-				</div>
-				<div class="dateinp2">
-					<div>
-						<label>По</label>
-						<input type="date" ng-model="dateFilter.date2">
-					</div>
+		</div>
+		<div class="date-container" ng-if="filterType=='По дате'">
+			<div class="dateinp1">
+				<div>
+					<label>С</label>
+					<input type="date" ng-model="dateFilter.date1">
 				</div>
 			</div>
-
-			<div class="id-container" ng-if="filterType=='По id'">
-				<label>id
-				<input type="number" ng-model="filter.idFilter">
-				</label>
+			<div class="dateinp2">
+				<div>
+					<label>По</label>
+					<input type="date" ng-model="dateFilter.date2">
+				</div>
 			</div>
-
-			<button class="apply" type="button" ng-click="callApplyFilter()">Применить</button>
 		</div>
 
+		<div class="id-container" ng-if="filterType=='По id'">
+			<form name="idForm">
+				<label>Выберите id:
+				<input type="number" max="1000000000" ng-model="filter.idFilter">
+				</label>
+			</form>
+		</div>
+		<label ng-if="filterType=='По дате'">Сумма текущей выборки: {{curSum}}</label>
+		<button class="apply" type="button" ng-click="callApplyFilter()">Применить</button>
+	</div>
+
 	<table class="tbl">
+		<colgroup>
+			<col style="width: 10%;">
+			<col style="width: 20%;">
+			<col style="width: 20%;">
+			<col style="width: 30%;">
+			<col style="width: 20%;">
+			<col style="width: 10%;">
+		</colgroup>
 		<thead>
 		<tr>
 			<th>id</th>
@@ -62,36 +71,36 @@
 			<td>{{expense.description}}</td>
 			<td>{{expense.category}}</td>
 			<td>
-				<a href="" ng-click="editExpense(expense)">
+				<button type="button" ng-click="editExpense(expense)">
 					<img class="icon" src="img/pencil.svg" alt="edit icon">
-				</a>
-				<a href="" ng-click="deleteExpense(expense.id)">
+				</button>
+				<button type="button" ng-click="deleteExpense(expense.id)">
 					<img class="icon" src="img/trash3.svg" alt="remove">
-				</a>
+				</button>
 			</td>
 		</tr>
 		</tbody>
 	</table>
 	<div class="modal" ng-if="showEditForm">
 		<div class="modal-content">
-			<h2>Редактировать</h2>
+			<h2>{{ isEdit ? 'Редактирование' : 'Добавление' }}</h2>
 			<form name="myForm">
-				<label>Сумма:
-					<input type="number" ng-model="formData.amount" required>
+				<label>Сумма:<br>
+					<input type="text" maxlength="10" ng-model="formData.amount" ng-pattern="/^\d*\.?\d*$/" required>
 				</label><br>
 
-				<label>Дата:
+				<label>Дата:<br>
 					<input type="date" ng-model="formData.date" required>
 				</label><br>
 
-				<label>Категория:
+				<label>Категория:<br>
 					<select ng-model="formData.category" ng-options="category for category in categories" required>
 						<option value="">-- выберите значение --</option>
 					</select>
 				</label><br>
 
-				<label>Описание:
-					<input type="text" ng-model="formData.description">
+				<label>Описание:<br>
+					<textarea maxlength="100" ng-model="formData.description"></textarea>
 				</label><br>
 
 				<button type="button" ng-click="checkForm()" ng-disabled="!myForm.$valid">Отправить</button>

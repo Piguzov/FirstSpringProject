@@ -11,8 +11,9 @@ angular.module('expenseApp', [])
     $scope.filterTypes = ['По id','По дате']; //Список фильтров
     $scope.dateFilter={}; //Данные фильтра даты
     $scope.filter = {
-      idFilter: 1
+      idFilter: null
     }; //Данные фильтра id
+    $scope.curSum=0; //Сумма выборки
 
 //    $http({method: 'GET', url: 'http://localhost:8080/expenses'})
 //        .then(function success(response) {
@@ -31,13 +32,18 @@ angular.module('expenseApp', [])
                     .then(function success(response) {
                         $scope.expenses = response.data;
                     });
+            $http({method: 'GET', url: 'http://localhost:8080/expenses/summary'+data})
+                                .then(function success(response) {
+                                    $scope.curSum = response.data;
+                                });
         }
         else{
+            if($scope.filter.idFilter){
             $http({method: 'GET', url: 'http://localhost:8080/expenses/'+$scope.filter.idFilter})
                                 .then(function success(response) {
                                     $scope.expenses = [response.data];
                                 });
-
+            }
         }
     }
     $scope.callApplyFilter=function(){
@@ -105,6 +111,5 @@ angular.module('expenseApp', [])
 
     $scope.cancelEdit = function() {
         $scope.showEditForm = false;
-        console.log($scope.showEditForm);
     };
 });
