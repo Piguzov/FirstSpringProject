@@ -1,5 +1,5 @@
-angular.module('expenseApp', [])
-.controller('ExpenseController', function($scope, $http, $window) {
+angular.module('expenseApp')
+.controller('ExpenseController', function($scope, $http, API_CONFIG) {
 
     $scope.showAddForm = false; //Отображение формы
     $scope.formData = {}; //Данные формы
@@ -28,18 +28,18 @@ angular.module('expenseApp', [])
             if($scope.dateFilter.date2!=null){
                             data+="date2="+formatDate($scope.dateFilter.date2)+'&'
                         }
-            $http({method: 'GET', url: 'http://localhost:8080/expenses'+data})
+            $http({method: 'GET', url: API_CONFIG.baseUrl + '/expenses'+data})
                     .then(function success(response) {
                         $scope.expenses = response.data;
                     });
-            $http({method: 'GET', url: 'http://localhost:8080/expenses/summary'+data})
+            $http({method: 'GET', url: API_CONFIG.baseUrl + '/expenses/summary'+data})
                                 .then(function success(response) {
                                     $scope.curSum = response.data;
                                 });
         }
         else{
             if($scope.filter.idFilter){
-            $http({method: 'GET', url: 'http://localhost:8080/expenses/'+$scope.filter.idFilter})
+            $http({method: 'GET', url: API_CONFIG.baseUrl + '/expenses/'+$scope.filter.idFilter})
                                 .then(function success(response) {
                                     $scope.expenses = [response.data];
                                 });
@@ -76,7 +76,7 @@ angular.module('expenseApp', [])
             if(!angular.equals($scope.curExpense.date,$scope.formData.date)){data+="date="+formatDate($scope.formData.date)+'&'}
             if(!angular.equals($scope.curExpense.category,$scope.formData.category)){data+="category="+$scope.formData.category+'&'}
             if(!angular.equals($scope.curExpense.description,$scope.formData.description)){data+="description="+$scope.formData.description}
-            $http.put('http://localhost:8080/expenses/'+$scope.formData.id+data)
+            $http.put(API_CONFIG.baseUrl + '/expenses/'+$scope.formData.id+data)
                             .then(function(response) {
                             console.log('Успешно обновлено', response.data);
                             $scope.showEditForm = false;
@@ -86,7 +86,7 @@ angular.module('expenseApp', [])
                             });
             }
         else{
-            $http.post('http://localhost:8080/expenses', $scope.formData)
+            $http.post(API_CONFIG.baseUrl + '/expenses', $scope.formData)
                 .then(function(response) {
                 console.log('Успешно отправлено', response.data);
                 $scope.showEditForm = false;
@@ -97,7 +97,7 @@ angular.module('expenseApp', [])
         }
     };
     $scope.deleteExpense = function(id){
-        $http.delete('http://localhost:8080/expenses/'+id)
+        $http.delete(API_CONFIG.baseUrl + '/expenses/'+id)
         .then(function(response) {
                 console.log('Удаление успешно', response.data);
                 applyFilter()
