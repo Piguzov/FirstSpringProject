@@ -10,7 +10,7 @@
 
 указать адрес базы данных из пункта 1, а также имя и пароль пользователя.
 
-4) Запустить FirstSpringProjectApplication.
+4) Запустить src/main/java/com.example.FisrtSpringProject/FirstSpringProjectApplication (предполагается, что запуск будет через IDE).
 
 Приложение работает локально.
 
